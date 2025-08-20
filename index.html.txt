@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>????? ????? - ??? ??????</title>
+    <!-- ???? ????: Tajawal -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* ???? ???? ????? ???? ???? ????? (Hero) */
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(-45deg, #a491f2, #6366f1, #3c2a93, #a491f2);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        /* ?????? ??????? ?????? ???? */
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* ???? ?? ?? ??????? ??? ??????? ???????? */
+        .hero-bg .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ?????? ???????? ?????? */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hide-mobile {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .hide-mobile {
+                display: block;
+            }
+        }
+        /* Spinner styles */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #6366f1;
+            animation: spin 1s ease infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- ????? ??????? ???????? -->
+    <div id="message-box" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h3 id="message-title" class="text-xl font-bold mb-4"></h3>
+            <p id="message-text" class="text-gray-600 mb-6"></p>
+            <button onclick="closeMessageBox()" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition duration-300">?????</button>
+        </div>
+    </div>
+
+    <!-- ??? ?????? (Header) -->
+    <header class="bg-white shadow-sm sticky top-0 z-40">
+        <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+            
+            <!-- ???? ??????? -->
+            <a href="#" class="flex items-center space-x-2 space-x-reverse">
+                <!-- ?? ????? ???? ?????? ??????? ?? ???? ???????? -->
+                <img src="assets/images/logo.png" alt="???? ????? ????? ?????" class="h-12">
+            </a>
+
+            <!-- ????? ??? ?????? -->
+            <ul class="hidden md:flex space-x-8 text-lg font-semibold space-x-reverse">
+                <li><a href="#hero" class="hover:text-indigo-600 transition duration-200">????????</a></li>
+                <li><a href="#about" class="hover:text-indigo-600 transition duration-200">?? ?????????</a></li>
+                <li><a href="#services" class="hover:text-indigo-600 transition duration-200">???????</a></li>
+                <li><a href="#ai-tools" class="hover:text-indigo-600 transition duration-200">??????? ?????? ?</a></li>
+                <li><a href="#booking" class="hover:text-indigo-600 transition duration-200">???? ??????</a></li>
+                <li><a href="#contact" class="hover:text-indigo-600 transition duration-200">????? ????</a></li>
+            </ul>
+            
+            <!-- ?? ????? ???????? -->
+            <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        
+        <!-- ????? ???????? ???????? -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg py-2">
+            <ul class="flex flex-col items-center space-y-4 text-base font-medium">
+                <li><a href="#hero" class="block py-2 hover:text-indigo-600">????????</a></li>
+                <li><a href="#about" class="block py-2 hover:text-indigo-600">?? ?????????</a></li>
+                <li><a href="#services" class="block py-2 hover:text-indigo-600">???????</a></li>
+                <li><a href="#ai-tools" class="block py-2 hover:text-indigo-600">??????? ?????? ?</a></li>
+                <li><a href="#booking" class="block py-2 hover:text-indigo-600">???? ??????</a></li>
+                <li><a href="#contact" class="block py-2 hover:text-indigo-600">????? ????</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- ??? ?????? ???????? (Hero) -->
+        <section id="hero" class="hero-bg text-white py-24 md:py-36 text-center rounded-b-3xl shadow-lg">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 drop-shadow-md">???? ?? ?????</h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 drop-shadow-md">
+                    ??? ??? ???????? ??? ??????? ????? ????? ??????? ????? ???? ?????.
+                </p>
+                <a href="#booking" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                    ???? ????? ????
+                </a>
+            </div>
+        </section>
+
+        <!-- ??? ?? ????????? -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-4 md:flex items-center gap-12">
+                <div class="md:w-1/2 mb-8 md:mb-0 text-center">
+                    <!-- ?????? ????????? ??????? -->
+                    <div class="inline-block p-8 bg-white rounded-full shadow-2xl">
+                        <i class="fa-solid fa-user-doctor text-9xl text-indigo-600"></i>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 mb-4">?? ?????????</h2>
+                    <p class="text-lg text-gray-700 leading-relaxed mb-4">
+                        ????????? ???? ???? ?? ??????? ?????? ?? ????? ????? ??????? ????? ??? ???? ??????? ?? ????? ?????. ????? ???? ????? ?? 5 ?????? ???? ???????? ????? ??????? ?? ??????? ????????? ?? ?????? ??? ?????? ????? ?????? ????????.
+                    </p>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        ??????? ???? ??? ????? ????? ????? ??????? ?? ??????? ??? ???? ??? ?????? ????? ???????? ?? ???? ????? ????? ???? ???????.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ??? ??????? -->
+        <section id="services" class="bg-gray-100 py-20">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 mb-12">???????</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- ????? ???? 1 - ?? ????? ???????? -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                        <div class="text-5xl text-indigo-500 mb-4">
+                           <i class="fa-solid fa-microphone-lines"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-2">????? ?????</h3>
+                        <p class="text-gray-600">????? ????? ?????? ????? ??? ???????? ???????? ??????? ???????.</p>
+                    </div>
+
+                    <!-- ????? ???? 2 - ?? ????? ???????? -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                        <div class="text-5xl text-indigo-500 mb-4">
+                           <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-2">????? ?? ??? ?????? ????????</h3>
+                        <p class="text-gray-600">????? ?????? ??????? ???????? ??? ??????? ?????? ??? ????? ???????? ??? ???????.</p>
+                    </div>
+
+                    <!-- ????? ???? 3 - ?? ????? ???????? -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                        <div class="text-5xl text-indigo-500 mb-4">
+                           <i class="fa-solid fa-child"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-2">????? ???????</h3>
+                        <p class="text-gray-600">????? ????? ???? ????? ?????? ??? ???????? ?????? ??????? ????????.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ??? ??????? ?????? -->
+        <section id="ai-tools" class="py-20">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 mb-8 text-center">??????? ?????? ?</h2>
+                <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                    <p class="text-center text-gray-700 mb-6">
+                        ?????? ??????? ???????? ??????? ????????? ?????? ??? ??????? ????? ?? ??????? ?????.
+                    </p>
+                    <div class="space-y-6">
+                        <!-- ??? ??????? ?????? ????? -->
+                        <div>
+                            <label for="gemini-input" class="block text-lg font-medium text-gray-700">???? ?? ?????? ?? ???? ???? ????? ??????:</label>
+                            <input type="text" id="gemini-input" name="gemini-input" placeholder="????: ?? ?? ???????? ?? ????? ???" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                        </div>
+                        
+                        <!-- ??????? ?????? -->
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse justify-center">
+                            <button id="generate-text-btn" class="flex items-center justify-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                                <span id="generate-text-spinner" class="spinner hidden mr-2"></span>
+                                <span id="generate-text-label">???? ?????? ????????? ?</span>
+                            </button>
+                            <button id="generate-speech-btn" class="flex items-center justify-center bg-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105">
+                                <span id="generate-speech-spinner" class="spinner hidden mr-2"></span>
+                                <span id="generate-speech-label">????? ????? ?</span>
+                            </button>
+                        </div>
+                        
+                        <!-- ??? ??????? ?????? ???????? ?????? -->
+                        <div>
+                            <label for="gemini-creative-input" class="block text-lg font-medium text-gray-700 mt-4">???? ??? ????? ??????? ????? ?? ????? ??????? ?????:</label>
+                            <input type="text" id="gemini-creative-input" name="gemini-creative-input" placeholder="????: ???? ????? ??????" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                        </div>
+
+                        <!-- ??????? ??????? -->
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse justify-center">
+                            <button id="generate-story-btn" class="flex items-center justify-center bg-emerald-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-emerald-700 transition duration-300 transform hover:scale-105">
+                                <span id="generate-story-spinner" class="spinner hidden mr-2"></span>
+                                <span id="generate-story-label">????? ??? ?</span>
+                            </button>
+                            <button id="generate-exercises-btn" class="flex items-center justify-center bg-pink-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105">
+                                <span id="generate-exercises-spinner" class="spinner hidden mr-2"></span>
+                                <span id="generate-exercises-label">????? ?????? ?</span>
+                            </button>
+                        </div>
+
+                        <!-- ????? ??????? -->
+                        <div id="results-container" class="mt-6 bg-gray-50 p-4 rounded-xl hidden">
+                            <h4 class="text-lg font-semibold mb-2">???????:</h4>
+                            <div id="result-content" class="text-gray-700 leading-relaxed"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ??? ??? ???????? -->
+        <section id="booking" class="py-20">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 mb-8 text-center">???? ??????</h2>
+                <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
+                    <form id="booking-form" class="space-y-6">
+                        <!-- ??? ????? -->
+                        <div>
+                            <label for="name" class="block text-lg font-medium text-gray-700">????? ??????</label>
+                            <input type="text" id="name" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                        </div>
+                        
+                        <!-- ??? ?????? ?????????? -->
+                        <div>
+                            <label for="email" class="block text-lg font-medium text-gray-700">?????? ??????????</label>
+                            <input type="email" id="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                        </div>
+
+                        <!-- ??? ??? ?????? -->
+                        <div>
+                            <label for="phone" class="block text-lg font-medium text-gray-700">??? ??????</label>
+                            <input type="tel" id="phone" name="phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                        </div>
+
+                        <!-- ?????? ?????? -->
+                        <div>
+                            <label for="service" class="block text-lg font-medium text-gray-700">?????? ????????</label>
+                            <select id="service" name="service" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                                <option value="" disabled selected>???? ????...</option>
+                                <option value="????? ?????">????? ?????</option>
+                                <option value="????? ?? ??? ?????? ????????">????? ?? ??? ?????? ????????</option>
+                                <option value="????? ???????">????? ???????</option>
+                            </select>
+                        </div>
+                        
+                        <!-- ??? ?????? ????? ???????? -->
+                        <div class="flex flex-col md:flex-row md:space-x-4 md:space-x-reverse">
+                            <!-- ?????? ??????? -->
+                            <div class="md:w-1/2 mb-4 md:mb-0">
+                                <label for="date" class="block text-lg font-medium text-gray-700">????? ??????</label>
+                                <input type="date" id="date" name="date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                            </div>
+
+                            <!-- ?????? ????? -->
+                            <div class="md:w-1/2">
+                                <label for="time" class="block text-lg font-medium text-gray-700">??? ??????</label>
+                                <select id="time" name="time" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3">
+                                    <option value="" disabled selected>???? ?????...</option>
+                                    <option value="09:00">09:00 ??????</option>
+                                    <option value="10:00">10:00 ??????</option>
+                                    <option value="11:00">11:00 ??????</option>
+                                    <option value="14:00">02:00 ?????</option>
+                                    <option value="15:00">03:00 ?????</option>
+                                    <option value="16:00">04:00 ?????</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- ?? ??????? -->
+                        <div class="text-center pt-4">
+                            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
+                                ????? ?????
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ??? ????? ???? -->
+        <section id="contact" class="bg-gray-100 py-20">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-indigo-600 mb-8 text-center">????? ????</h2>
+                <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl flex flex-col md:flex-row gap-8">
+                    <div class="md:w-1/2 space-y-4 text-center md:text-right">
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2">??????</h4>
+                            <p class="text-lg text-gray-600">+216 20 524 822</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2">?????? ??????????</h4>
+                            <p class="text-lg text-gray-600">wifekwahbi@gmail.com</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold mb-2">???????</h4>
+                            <!-- ?? ????? ??????? ??? -->
+                            <p class="text-lg text-gray-600">187 ???? ???? ??? ?????? ????</p>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <!-- ?? ????? ???? ??????? ??? ?????? ?????? -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3193.385567303254!2d10.18047061529124!3d36.789941!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd3340fce6456d%3A0x7ae2d04308eef65b!2scabinet%20d'orthophonie%20wifek%20wahbi!5e0!3m2!1sen!2s!4v1724177267123!5m2!1sen!2s" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-xl shadow-md"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ????? ?????? (Footer) -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4 flex flex-col items-center space-y-4">
+            <!-- ???? ????? -->
+            <p>&copy; 2024 ????? ?????. ???? ?????? ??????.</p>
+
+            <!-- ????? ??????? ????????? - ?? ????? ????????? -->
+            <div class="flex space-x-4 space-x-reverse mt-4">
+                <!-- ???? ?????? -->
+                <a href="https://www.facebook.com/profile.php?id=100076164880750&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-white transition duration-300">
+                    <i class="fa-brands fa-facebook-f fa-2xl"></i>
+                </a>
+                
+                <!-- ???? ???????? -->
+                <a href="#" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-white transition duration-300">
+                    <i class="fa-brands fa-instagram fa-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ??????? ??????? ????????
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+
+        function showMessageBox(title, text) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            messageBox.classList.remove('hidden');
+            messageBox.classList.add('flex');
+        }
+
+        function closeMessageBox() {
+            messageBox.classList.add('hidden');
+            messageBox.classList.remove('flex');
+        }
+
+        // ???? ????? ????????
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // ????? ??????? ??? ????? ??? ????
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // ???? ??? ????????
+        const bookingForm = document.getElementById('booking-form');
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // ??? ??????? ?????????
+
+            // ??? ???????? ?? ???????
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            // ?????? ?? ??? ???????? (?????? ?? ?? ???? ?????? ??????)
+            if (!name || !email || !phone || !service || !date || !time) {
+                showMessageBox('??? ?? ???????', '???? ??? ???? ?????? ???????? ?????? ?????.');
+                return;
+            }
+
+            // ?????? ????? ?????
+            // ?? ????? ?????? ???? ????? ??? ???????? ??? ?????? ?????????
+            console.log('?????? ?????:', { name, email, phone, service, date, time });
+
+            // ??? ????? ????
+            const successTitle = '?? ????? ?????!';
+            const successText = `????? ??? ${name}. ?? ????? ????? ????? "${service}" ?? ????? ${date} ?????? ${time}. ??????? ??? ??????.`;
+            showMessageBox(successTitle, successText);
+
+            // ????? ????? ??????? ??? ???????
+            bookingForm.reset();
+        });
+
+        // ======================================
+        // ???? Gemini API
+        // ======================================
+
+        const generateTextBtn = document.getElementById('generate-text-btn');
+        const generateSpeechBtn = document.getElementById('generate-speech-btn');
+        const generateStoryBtn = document.getElementById('generate-story-btn');
+        const generateExercisesBtn = document.getElementById('generate-exercises-btn');
+        const geminiInput = document.getElementById('gemini-input');
+        const geminiCreativeInput = document.getElementById('gemini-creative-input');
+        const resultsContainer = document.getElementById('results-container');
+        const resultContent = document.getElementById('result-content');
+        const textSpinner = document.getElementById('generate-text-spinner');
+        const textLabel = document.getElementById('generate-text-label');
+        const speechSpinner = document.getElementById('generate-speech-spinner');
+        const speechLabel = document.getElementById('generate-speech-label');
+        const storySpinner = document.getElementById('generate-story-spinner');
+        const storyLabel = document.getElementById('generate-story-label');
+        const exercisesSpinner = document.getElementById('generate-exercises-spinner');
+        const exercisesLabel = document.getElementById('generate-exercises-label');
+        
+        // ?????? ?? ????? ????????
+        function base64ToArrayBuffer(base64) {
+            const binaryString = window.atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        // ????? PCM ??? WAV
+        function pcmToWav(pcmData, sampleRate) {
+            const buffer = new ArrayBuffer(44 + pcmData.length * 2);
+            const view = new DataView(buffer);
+
+            // RIFF chunk descriptor
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcmData.length * 2, true);
+            writeString(view, 8, 'WAVE');
+            
+            // FMT sub-chunk
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true); // Audio format (1 for PCM)
+            view.setUint16(22, 1, true); // Number of channels
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); // Byte rate
+            view.setUint16(32, 2, true); // Block align
+            view.setUint16(34, 16, true); // Bits per sample
+            
+            // Data sub-chunk
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcmData.length * 2, true);
+            
+            // PCM data
+            for (let i = 0; i < pcmData.length; i++) {
+                view.setInt16(44 + i * 2, pcmData[i], true);
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        // ?????? ??? ????? ????
+        generateTextBtn.addEventListener('click', async () => {
+            const prompt = geminiInput.value.trim();
+            if (!prompt) {
+                showMessageBox('??? ?? ???????', '???? ????? ???? ??? ??? ???????.');
+                return;
+            }
+
+            // ??? ???? ???????
+            textSpinner.classList.remove('hidden');
+            textLabel.textContent = '???? ???????...';
+            generateTextBtn.disabled = true;
+            generateSpeechBtn.disabled = true;
+            generateStoryBtn.disabled = true;
+            generateExercisesBtn.disabled = true;
+            resultsContainer.classList.remove('hidden');
+            resultContent.textContent = '???? ??????? ?? ?????...';
+            
+            let retryCount = 0;
+            const maxRetries = 3;
+            let success = false;
+
+            while (retryCount < maxRetries && !success) {
+                try {
+                    const payload = {
+                        contents: [{ parts: [{ text: `??? ??? ??? ?????? ?????? ??????? ?????? ???? ?????? ????? ?????? ?? ???? ????????? ?????? ???????. ?????? ??: ${prompt}` }] }],
+                    };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            throw new Error('Rate limit exceeded. Retrying...');
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                        
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        resultContent.textContent = text;
+                        success = true;
+                    } else {
+                        resultContent.textContent = '?????? ?? ????? ?? ?????? ??? ?????. ???? ???????? ??? ????.';
+                    }
+                } catch (error) {
+                    console.error('API Error:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(res => setTimeout(res, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        resultContent.textContent = '?????? ??? ???. ???? ?????? ?? ?????? ????????? ??? ????.';
+                    }
+                }
+            }
+
+            // ????? ???? ???????
+            textSpinner.classList.add('hidden');
+            textLabel.textContent = '???? ?????? ????????? ?';
+            generateTextBtn.disabled = false;
+            generateSpeechBtn.disabled = false;
+            generateStoryBtn.disabled = false;
+            generateExercisesBtn.disabled = false;
+        });
+
+        // ?????? ??? ????? ?????
+        generateSpeechBtn.addEventListener('click', async () => {
+            const textToSpeak = geminiInput.value.trim();
+            if (!textToSpeak) {
+                showMessageBox('??? ?? ???????', '???? ????? ???? ?? ???? ??? ??? ?????.');
+                return;
+            }
+
+            // ??? ???? ???????
+            speechSpinner.classList.remove('hidden');
+            speechLabel.textContent = '???? ???????...';
+            generateTextBtn.disabled = true;
+            generateSpeechBtn.disabled = true;
+            generateStoryBtn.disabled = true;
+            generateExercisesBtn.disabled = true;
+            resultsContainer.classList.remove('hidden');
+            resultContent.textContent = '???? ????? ?????...';
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            let success = false;
+            
+            while (retryCount < maxRetries && !success) {
+                try {
+                    const payload = {
+                        contents: [{ parts: [{ text: textToSpeak }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: {
+                                voiceConfig: { prebuiltVoiceConfig: { voiceName: "Rasalgethi" } }
+                            }
+                        },
+                        model: "gemini-2.5-flash-preview-tts"
+                    };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            throw new Error('Rate limit exceeded. Retrying...');
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRateMatch = mimeType.match(/rate=(\d+)/);
+                        const sampleRate = sampleRateMatch ? parseInt(sampleRateMatch[1], 10) : 16000;
+                        const pcmData = new Int16Array(base64ToArrayBuffer(audioData));
+                        const wavBlob = pcmToWav(pcmData, sampleRate);
+                        const audioUrl = URL.createObjectURL(wavBlob);
+                        
+                        resultContent.innerHTML = `<audio controls src="${audioUrl}" class="w-full mt-4"></audio>`;
+                        success = true;
+                    } else {
+                        resultContent.textContent = '?????? ?? ????? ?? ????? ?????. ???? ???????? ??? ????.';
+                    }
+                } catch (error) {
+                    console.error('API Error:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(res => setTimeout(res, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        resultContent.textContent = '?????? ??? ???. ???? ?????? ?? ?????? ????????? ??? ????.';
+                    }
+                }
+            }
+            
+            // ????? ???? ???????
+            speechSpinner.classList.add('hidden');
+            speechLabel.textContent = '????? ????? ?';
+            generateTextBtn.disabled = false;
+            generateSpeechBtn.disabled = false;
+            generateStoryBtn.disabled = false;
+            generateExercisesBtn.disabled = false;
+        });
+
+        // ?????? ??? ????? ???
+        generateStoryBtn.addEventListener('click', async () => {
+            const keywords = geminiCreativeInput.value.trim();
+            if (!keywords) {
+                showMessageBox('??? ?? ???????', '???? ????? ????? ??????? ?????? ???.');
+                return;
+            }
+
+            // ??? ???? ???????
+            storySpinner.classList.remove('hidden');
+            storyLabel.textContent = '???? ???????...';
+            generateTextBtn.disabled = true;
+            generateSpeechBtn.disabled = true;
+            generateStoryBtn.disabled = true;
+            generateExercisesBtn.disabled = true;
+            resultsContainer.classList.remove('hidden');
+            resultContent.textContent = '???? ????? ?????...';
+
+            let retryCount = 0;
+            const maxRetries = 3;
+            let success = false;
+
+            while (retryCount < maxRetries && !success) {
+                try {
+                    const prompt = `???? ??? ????? ?????? ?????? ??????? ??????? ???????? ??????? ????????? ???????: ${keywords}. ??? ?? ???? ????? ????? ??????? ????? ?????? ??? ??? ????? ?????.`;
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                    };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            throw new Error('Rate limit exceeded. Retrying...');
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                        const story = result.candidates[0].content.parts[0].text;
+                        resultContent.innerHTML = `<h3 class="font-bold text-xl mb-2">???:</h3><p>${story.replace(/\n/g, '<br>')}</p>`;
+                        success = true;
+                    } else {
+                        resultContent.textContent = '?????? ?? ????? ?? ????? ?????. ???? ???????? ??? ????.';
+                    }
+                } catch (error) {
+                    console.error('API Error:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(res => setTimeout(res, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        resultContent.textContent = '?????? ??? ???. ???? ?????? ?? ?????? ????????? ??? ????.';
+                    }
+                }
+            }
+
+            // ????? ???? ???????
+            storySpinner.classList.add('hidden');
+            storyLabel.textContent = '????? ??? ?';
+            generateTextBtn.disabled = false;
+            generateSpeechBtn.disabled = false;
+            generateStoryBtn.disabled = false;
+            generateExercisesBtn.disabled = false;
+        });
+
+        // ?????? ??? ????? ??????
+        generateExercisesBtn.addEventListener('click', async () => {
+            const exercisePrompt = geminiCreativeInput.value.trim();
+            if (!exercisePrompt) {
+                showMessageBox('??? ?? ???????', '???? ????? ??? ?? ??? ?????? ????????.');
+                return;
+            }
+
+            // ??? ???? ???????
+            exercisesSpinner.classList.remove('hidden');
+            exercisesLabel.textContent = '???? ???????...';
+            generateTextBtn.disabled = true;
+            generateSpeechBtn.disabled = true;
+            generateStoryBtn.disabled = true;
+            generateExercisesBtn.disabled = true;
+            resultsContainer.classList.remove('hidden');
+            resultContent.textContent = '???? ????? ????????...';
+            
+            let retryCount = 0;
+            const maxRetries = 3;
+            let success = false;
+
+            while (retryCount < maxRetries && !success) {
+                try {
+                    const prompt = `???? 10 ????? ?????? ?????? ??????? (????? ????) ???????? ?? ?????? ????? ?? ${exercisePrompt}. ??? ?? ???? ??????? ????? ??????? ????????. ?? ?????? ??????? ??? ??? ????? ?????.`;
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                    };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            throw new Error('Rate limit exceeded. Retrying...');
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                        const exercises = result.candidates[0].content.parts[0].text;
+                        resultContent.innerHTML = `<h3 class="font-bold text-xl mb-2">?????? ?????:</h3><p>${exercises.replace(/\n/g, '<br>')}</p>`;
+                        success = true;
+                    } else {
+                        resultContent.textContent = '?????? ?? ????? ?? ????? ????????. ???? ???????? ??? ????.';
+                    }
+                } catch (error) {
+                    console.error('API Error:', error);
+                    retryCount++;
+                    if (retryCount < maxRetries) {
+                        await new Promise(res => setTimeout(res, Math.pow(2, retryCount) * 1000));
+                    } else {
+                        resultContent.textContent = '?????? ??? ???. ???? ?????? ?? ?????? ????????? ??? ????.';
+                    }
+                }
+            }
+
+            // ????? ???? ???????
+            exercisesSpinner.classList.add('hidden');
+            exercisesLabel.textContent = '????? ?????? ?';
+            generateTextBtn.disabled = false;
+            generateSpeechBtn.disabled = false;
+            generateStoryBtn.disabled = false;
+            generateExercisesBtn.disabled = false;
+        });
+    </script>
+</body>
+</html>
